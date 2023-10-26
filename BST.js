@@ -386,75 +386,75 @@ function printPostOrder(node) {
   }
 }
 
-// OUVINTE DE EVENTOS PARA OUVIR COMANDOS DO THREAD PRINCIPAL. A ÁRVORE EXECUTARÁ TUDO O QUE O THREAD PRINCIPAL DESEJA.
-// EM CADA ETAPA DO ALGORITMO, A ÁRVORE NOTIFICARÁ O THREAD PRINCIPAL SOBRE AS MUDANÇAS NA ÁRVORE PARA QUE O THREAD PRINCIPAL POSSA EXIBIR AS ALTERAÇÕES PASSO A PASSO PARA OS USUÁRIOS PARA FACILITAR O ENTENDIMENTO
+// OUVINTE DE EVENTOS PARA OUVIR COMANDOS DA THREAD PRINCIPAL. A ÁRVORE EXECUTARÁ TUDO O QUE A THREAD PRINCIPAL DESEJA.
+// EM CADA ETAPA DO ALGORITMO, A ÁRVORE NOTIFICARÁ A THREAD PRINCIPAL SOBRE AS MUDANÇAS NA ÁRVORE PARA QUE A THREAD PRINCIPAL POSSA EXIBIR AS ALTERAÇÕES PASSO A PASSO PARA OS USUÁRIOS PARA FACILITAR O ENTENDIMENTO
 self.addEventListener('message', (event) => {
   switch (event.data[0]) {
     case 'Inserir': {
       lastState = treeClone(root); // salve o último estado da árvore antes de inserir
       const value = event.data[1]; // obtenha o valor da entrada do usuário
-      canvasWidth = event.data[2]; // obtenha canvasWidth do thread principal. Importante para a posição do nó
+      canvasWidth = event.data[2]; // obtenha canvasWidth da thread principal. Importante para a posição do nó
       root = push(root, value, 50, null, 'root'); // insira-o
       updatePosition(root); // atualize todas as posições dos nós
-      self.postMessage([root, msg, 'Concluído']); // informe ao thread principal que a operação foi concluída
+      self.postMessage([root, msg, 'Concluído']); // informe à thread principal que a operação foi concluída
       break;
     }
     case 'Excluir': {
       lastState = treeClone(root); // salve o último estado da árvore antes de excluir
       const key = event.data[1]; // obtenha o valor da entrada do usuário
       if (root == null) {
-        self.postMessage([root, 'Árvore vazia', 'Concluído']); // envie uma mensagem para o thread principal de que a árvore está vazia
+        self.postMessage([root, 'Árvore vazia', 'Concluído']); // envie uma mensagem para a thread principal de que a árvore está vazia
       }
       else {
         root = pop(root, key); // exclua-o
         updatePosition(root); // atualize a posição do nó
         unhighlightAll(root); // desmarque todos os nós
-        self.postMessage([root, msg, 'Concluído']); // informe ao thread principal que a operação foi concluída
+        self.postMessage([root, msg, 'Concluído']); // informe à thread principal que a operação foi concluída
       }
       break;
     }
     case 'Encontrar': {
       const key = event.data[1]; // obtenha o valor da entrada do usuário
       if (root == null) {
-        self.postMessage([root, 'Árvore vazia', 'Concluído']); // envie uma mensagem para o thread principal de que a árvore está vazia
+        self.postMessage([root, 'Árvore vazia', 'Concluído']); // envie uma mensagem para a thread principal de que a árvore está vazia
       }
       else {
         search(root, key);
         unhighlightAll(root); // desmarque todos os nós
-        self.postMessage([root, msg, 'Concluído']); // informe ao thread principal que a operação foi concluída
+        self.postMessage([root, msg, 'Concluído']); // informe à thread principal que a operação foi concluída
       }
       break;
     }
     case 'Imprimir Pré-Ordem': {
       if (root == null) {
-        self.postMessage([root, 'Árvore vazia', '', 'Concluído']); // envie uma mensagem para o thread principal de que a árvore está vazia
+        self.postMessage([root, 'Árvore vazia', '', 'Concluído']); // envie uma mensagem para a thread principal de que a árvore está vazia
       }
       else {
         printPreOrder(root);
         unhighlightAll(root); // desmarque todos os nós após a operação
-        self.postMessage([root, 'Impressão Concluída', '', 'Concluído']); // informe ao thread principal que a operação foi concluída
+        self.postMessage([root, 'Impressão Concluída', '', 'Concluído']); // informe à thread principal que a operação foi concluída
       }
       break;
     }
     case 'Imprimir In-Ordem': {
       if (root == null) {
-        self.postMessage([root, 'Árvore vazia', '', 'Concluído']); // envie uma mensagem para o thread principal de que a árvore está vazia
+        self.postMessage([root, 'Árvore vazia', '', 'Concluído']); // envie uma mensagem para a thread principal de que a árvore está vazia
       }
       else {
         printInOrder(root);
         unhighlightAll(root); // desmarque todos os nós após a operação
-        self.postMessage([root, 'Impressão Concluída', '', 'Concluído']); // informe ao thread principal que a operação foi concluída
+        self.postMessage([root, 'Impressão Concluída', '', 'Concluído']); // informe à thread principal que a operação foi concluída
       }
       break;
     }
     case 'Imprimir Pós-Ordem': {
       if (root == null) {
-        self.postMessage([root, 'Árvore vazia', '', 'Concluído']); // envie uma mensagem para o thread principal de que a árvore está vazia
+        self.postMessage([root, 'Árvore vazia', '', 'Concluído']); // envie uma mensagem para a thread principal de que a árvore está vazia
       }
       else {
         printPostOrder(root);
         unhighlightAll(root); // desmarque todos os nós após a operação
-        self.postMessage([root, 'Impressão Concluída', '', 'Concluído']); // informe ao thread principal que a operação foi concluída
+        self.postMessage([root, 'Impressão Concluída', '', 'Concluído']); // informe à thread principal que a operação foi concluída
       }
       break;
     }
@@ -463,7 +463,7 @@ self.addEventListener('message', (event) => {
         root = treeClone(lastState); // redefina a árvore para o estado anterior
         updatePosition(root); // atualize todas as posições dos nós
         unhighlightAll(root); // desmarque todos os nós
-        self.postMessage([root, 'Revertido', 'Concluído']); // informe ao thread principal que a operação foi concluída
+        self.postMessage([root, 'Revertido', 'Concluído']); // informe à thread principal que a operação foi concluída
       }
       break;
     }
