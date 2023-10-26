@@ -458,13 +458,17 @@ self.addEventListener('message', (event) => {
       }
       break;
     }
-    case 'Recuar': {
+    case 'Desfazer': {
       if (lastState != null) {
         root = treeClone(lastState); // redefina a árvore para o estado anterior
         updatePosition(root); // atualize todas as posições dos nós
         unhighlightAll(root); // desmarque todos os nós
         self.postMessage([root, 'Revertido', 'Concluído']); // informe ao thread principal que a operação foi concluída
       }
+      break;
+    }
+    case 'Definir Velocidade de Animação': {
+      delay = event.data[1]; // get delay value from user input (slider)
       break;
     }
     default:
